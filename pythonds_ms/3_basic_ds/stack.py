@@ -71,3 +71,21 @@ class StackTestCase(unittest.TestCase):
     def test_size(self):
         "Testing Stack.size"
         self.assertEquals(self.stack.size(), self.stack.__stack__.__len__(), "Size of stack is as anticipated")
+
+
+def revstring(s):
+    """
+    Write a function revstring(mystr) that uses a stack to reverse the characters in a string.
+    """
+    stack = Stack(*s)
+    rev = map(lambda i: stack.pop(), range(len(stack)))
+
+    rev_str = str()
+    for i in rev:
+        rev_str = rev_str + i
+    return rev_str
+
+
+def test_revstring():
+    "Testing revstring"
+    assert revstring('hello') == 'olleh'
