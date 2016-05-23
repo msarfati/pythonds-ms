@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # Impl. of a Stack
-from unittest import TestCase
+import unittest
 
-class EmptyStack(Exception):
+
+class EmptyStackError(Exception):
     def __str__(self):
         return "You cannot pop from an empty stack."
+
 
 class Stack():
     def __init__(self, *args):
@@ -23,16 +25,49 @@ class Stack():
         try:
             return self.__stack__.pop()
         except:
-            raise EmptyStack
+            raise EmptyStackError
 
     def peek(self):
         return self.__stack__[-1]
 
+    def isEmpty(self):
+        return True if len(self.__stack__) == 0 else False
 
-def StackTestCase(TestCase):
-   def test_pop():
-        s = Stack(3, "sum", 3.2)
-        for i in range(len(s)):
-            s.pop()
-        s.pop()
+    def size(self):
+        return self.__len__()
 
+
+class StackTestCase(unittest.TestCase):
+
+    @classmethod
+    def fixture(cls):
+        return Stack(3, "sum", 3.2)
+
+    def setUp(self):
+        self.stack = self.fixture()
+
+    def test_push(self):
+        "Testing Stack.push"
+        self.stack.push('new element')
+        self.assertEqual(self.stack.__stack__[-1], 'new element', 'element pushed ontop of stack')
+
+    def test_pop(self):
+        "Testing Stack.pop"
+        for i in range(len(self.stack)):
+            self.stack.pop()
+        self.assertRaises(EmptyStackError, self.stack.pop)
+
+    def test_peek(self):
+        "Testing Stack.peek"
+        self.assertEquals(self.stack.peek(), self.stack.__stack__[-1], "peek returns topmost element")
+
+    def test_isEmpty(self):
+        "Testing Stack.isEmpty"
+        self.assertFalse(self.stack.isEmpty(), "Stack is not empty yet.")
+        for i in range(len(self.stack)):
+            self.stack.pop()
+        self.assertTrue(self.stack.isEmpty(), "Stack is indeed empty.")
+
+    def test_size(self):
+        "Testing Stack.size"
+        self.assertEquals(self.stack.size(), self.stack.__stack__.__len__(), "Size of stack is as anticipated")
