@@ -18,6 +18,9 @@ class Stack:
     def isEmpty(self):
         return len(self.items) == 0
 
+    def peek(self):
+        return self.items[-1]
+
     def __repr__(self):
         return str(self.items)
 
@@ -90,10 +93,56 @@ def test_divideByN():
     assert divideByN(42, 2) == bin(42)[2:]
 
 
+def infixToPostfixNotation(exp):
+    'Tokenizes and parses basic arithmetic expressions.'
+    import string
+    exp = exp.upper()
+    prec = {
+        '*': 3,
+        "/": 3,
+        "+": 2,
+        "-": 2,
+        "(": 1,
+    }
+    opStack = Stack()
+    postfixList = []
+    tokenList = exp.split()
+
+    for token in tokenList:
+        if token in string.ascii_uppercase or token in string.digits:
+            postfixList.append(token)
+        elif token == '(':
+            opStack.push(token)
+        elif token == ')':
+            topToken = opStack.pop()
+            while topToken != '(':
+                postfixList.append(topToken)
+                topToken = opStack.pop()
+
+        else:
+            while (not opStack.isEmpty()) and \
+                (prec[opStack.peek()] >= prec[token]):
+                    postfixList.append(opStack.pop())
+            opStack.push(token)
+
+    while not opStack.isEmpty():
+        postfixList.append(opStack.pop())
+
+    return " ".join(postfixList)
+
+
+def test_infixToPostfixNotation():
+    assert infixToPostfixNotation("A * B + C * D") == "A B * C D * +"
+    assert infixToPostfixNotation(
+        "( A + B ) * C - ( D - E ) * ( F + G )") == "A B + C * D E - F G + * -"
+    assert infixToPostfixNotation("( A + B ) * ( C + D )") == 'A B + C D + *'
+
+
 def main():
     # test_balancedParens()
     # test_divideBy2()
-    test_divideByN()
+    # test_divideByN()
+    test_infixToPostfixNotation()
 
 if __name__ == '__main__':
     main()
