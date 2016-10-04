@@ -110,7 +110,7 @@ def infixToPostfixNotation(exp):
 
     for token in tokenList:
         if token in string.ascii_uppercase or token in string.digits:
-            postfixList.append(token)
+            postfixList.append(tok-en)
         elif token == '(':
             opStack.push(token)
         elif token == ')':

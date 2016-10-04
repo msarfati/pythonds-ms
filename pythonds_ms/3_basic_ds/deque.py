@@ -33,7 +33,7 @@ def palindromeChecker(s):
     for i in s:
         deque.addRear(i)
 
-    while deque.isEmpty() != True:
+    while deque.size() > 1:
         if deque.removeFront() != deque.removeRear():
             return False
 
@@ -42,8 +42,9 @@ def palindromeChecker(s):
 
 def test_palindromeChecker():
     assert palindromeChecker("toot") == True
-    # assert palindromeChecker("racecar") == True
+    assert palindromeChecker("racecar") == True
     assert palindromeChecker("book") == False
+    assert palindromeChecker("l" * 99) == True
 
 
 def main():
