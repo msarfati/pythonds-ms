@@ -43,6 +43,34 @@ def recurExp(base, exp):
     return base * recurExp(base, exp - 1)
 
 
+def iter_fib(n):
+    n1 = n2 = 1
+    for i in range(n):
+        n3 = n1 + n2
+        n1 = n2
+        n2 = n3
+        print(n3)
+    return n3
+
+
+def fib(n, a=1, b=1):
+    if n <= 0:
+        return b
+    return fib(n-1, a=b, b=a+b)
+
+
+def fib2(n):
+    if n == 0 or n == 1:
+        return 1
+    return fib2(n-1) + fib2(n-2)
+
+
+def recur_count(n):
+    if n <= 0:
+        return 0
+    return 1 + recur_count(n-1)
+
+
 def main():
     lst = [4, 3, 68, 34, 67, 12]
     product = lambda lst: reduce(lambda x, y: x * y, lst)
@@ -56,7 +84,10 @@ def main():
     assert recurProduct(lst) == product(lst)
     assert recurExp(2, 6) == 2**6
     # print(recurSum(lst))
-    # print(sum(lst))
+    # print(fib(12))
+    assert fib2(11) == 144
+    print(recur_count(9))
+
 
 if __name__ == '__main__':
     main()
