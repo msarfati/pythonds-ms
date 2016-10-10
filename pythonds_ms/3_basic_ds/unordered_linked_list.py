@@ -90,6 +90,11 @@ class UnorderedList:
         prev.setNext(item)
         self.head = original
 
+    def insert(self, index, item):
+        if index > self.size():
+            return None
+        count = 0
+        while count <= index:
 
 def utlist_fixture():
     ulist = UnorderedList()
